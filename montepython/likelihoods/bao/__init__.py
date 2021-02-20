@@ -8,7 +8,7 @@ class bao(Likelihood):
     # initialization routine
 
     def __init__(self, path, data, command_line):
-
+	
         Likelihood.__init__(self, path, data, command_line)
 
         # define array for values of z and data points
