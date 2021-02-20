@@ -118,6 +118,13 @@ data.cosmo_arguments['T_ncdm'] = 0.71611
 data.cosmo_arguments['output'] = 'mPk'
 data.cosmo_arguments['P_k_max_h/Mpc'] = 1.
 
+# The Planck Lensing likelihood is more precise when the non-linear effects are taken
+# into consideration. For this you can use halofit (default) or hmcode.
+# If you are running an exotic model for which the non-linearities cannot be
+# computed with either of these codes, you are advised to comment out the following line.
+data.cosmo_arguments['non linear'] = 'halofit'
+
+
 #------ Mcmc parameters ----
 
 data.N=10

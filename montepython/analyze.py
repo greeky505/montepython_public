@@ -2133,7 +2133,7 @@ class Information(object):
         # overrides the command line options
         if command_line.optional_plot_file:
             plot_file_vars = {'info': self,'plt': plt}
-            exec(open(command_line.optional_plot_file, plot_file_vars).read())
+            exec(open(command_line.optional_plot_file).read(), plot_file_vars)
 
         # check and store keep_fraction
         if command_line.keep_fraction<=0 or command_line.keep_fraction>1:

@@ -914,7 +914,7 @@ class Likelihood_clik(Likelihood):
         self.nuisance = list(self.clik.extra_parameter_names)
 
         # line added to deal with a bug in planck likelihood release: A_planck called A_Planck in plik_lite
-        if (self.name == 'Planck_highl_lite') or (self.name == 'Planck_highl_TTTEEE_lite'):
+        if (self.name == 'Planck15_highl_lite') or (self.name == 'Planck15_highl_TTTEEE_lite'):
             for i in range(len(self.nuisance)):
                 if (self.nuisance[i] == 'A_Planck'):
                     self.nuisance[i] = 'A_planck'
@@ -1030,7 +1030,7 @@ class Likelihood_clik(Likelihood):
         for nuisance in self.clik.get_extra_parameter_names():
 
             # line added to deal with a bug in planck likelihood release: A_planck called A_Planck in plik_lite
-            if (self.name == 'Planck_highl_lite') or (self.name == 'Planck_highl_TTTEEE_lite'):
+            if (self.name == 'Planck15_highl_lite') or (self.name == 'Planck15_highl_TTTEEE_lite'):
                 if nuisance == 'A_Planck':
                     nuisance = 'A_planck'
 

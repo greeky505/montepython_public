@@ -1,10 +1,11 @@
 # add 68% and 95% contours corresponding to
 # a gaussian H0 prior/likelihood
+# Values from 1903.07603
 
 if (name == 'H_0') or (second_name == 'H_0'):
 
-    center=73.24
-    sigma=1.74
+    center=74.03
+    sigma=1.42
     contour_color = info.MP_color['Orange']
     contour_alpha = 0.5
 

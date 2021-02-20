@@ -371,7 +371,7 @@ def run(cosmo, data, command_line):
 
     # Pass over the settings
     settings = PC_Settings(nDims,nDerived)
-    for arg, val in data.PC_arguments.iteritems():
+    for arg, val in data.PC_arguments.items():
         setattr(settings, arg, val)
 
     # Launch PolyChord

@@ -150,13 +150,13 @@ def read_args_from_bestfit(data, bestfit):
             data.mcmc_parameters[elem]['last_accepted'] = \
                 bestfit_values[bestfit_names.index(elem)] / \
                 data.mcmc_parameters[elem]['scale']
-            sys.stdout.write('from best-fit file : ', elem, ' = ')
+            sys.stdout.write('from best-fit file :  %s = ' %(elem))
             print(bestfit_values[bestfit_names.index(elem)] / \
                 data.mcmc_parameters[elem]['scale'])
         else:
             data.mcmc_parameters[elem]['last_accepted'] = \
                 data.mcmc_parameters[elem]['initial'][0]
-            sys.stdout.write('from input file    : ', elem, ' = ')
+            sys.stdout.write('from input file    :  %s = ' %(elem))
             print(data.mcmc_parameters[elem]['initial'][0])
 
 
