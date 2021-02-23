@@ -86,5 +86,5 @@ class bao_boss_dr12(Likelihood):
 
         # return ln(L)
         loglkl = - 0.5 * chi2
-
+        
         return loglkl

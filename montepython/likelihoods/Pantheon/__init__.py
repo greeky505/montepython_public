@@ -111,5 +111,5 @@ class Pantheon(Likelihood_sn):
 
         # Finally, compute the chi2 as the sum of the squared residuals
         chi2 = (residuals**2).sum()
-
+        print('This is the pantheon lkl;'-0.5*chi2)
         return -0.5 * chi2

@@ -63,5 +63,5 @@ class bao(Likelihood):
 
         # return ln(L)
         lkl = - 0.5 * chi2
-
+	
         return lkl

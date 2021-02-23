@@ -838,33 +838,21 @@ class distanceladder(Likelihood):
 		self.hubble_mu = hubble_sn.mu
 		self.hubble_dmu = hubble_sn.dmu
 		self.hubble_z = hubble_sn.z
-		#self.hubble_dz = hubble_sn.dz
-		#self.hubble_m = hubble_sn.m
-		#self.hubble_dm = hubble_sn.dm
+		self.hubble_dz = hubble_sn.dz
 
-		#print("Abs. Ceph. Mag:", Mceph)
-		#print("Abs. Ceph. Mag Error:",dMceph)
-		#print('')
-		#print("P-L Slope:", slope)
-		#print("P-L Slope Error:", dslope)
-		#print('')
-		#print("Msn:",Msn)
-		#print("dMsn:",dMsn)
-		#print('')
-		#print("ax:", ax)
-		#print("dax:", dax)
-		#print('')
-		#print("r16 H0:",H0)
-		#print("r16 dH0:",dH0)
+		print("Abs. Ceph. Mag:", Mceph)
+		print("Abs. Ceph. Mag Error:",dMceph)
+		print('')
+		print("Ceph. P-L Slope:", slope)
+		print("Ceph. P-L Slope Error:", dslope)
+		print('')
+		print("Anchor Msn:",Msn)
+		print("Anchor dMsn:",dMsn)
 		
-
 	def loglkl(self, cosmo, data):
 
 		z = self.hubble_z
-		#dz = self.hubble_dz
-		
-		#m = self.hubble_m
-		#dm = self.hubble_dm
+		dz = self.hubble_dz
 
 		k = len(self.hubble_dmu)
 
@@ -873,21 +861,25 @@ class distanceladder(Likelihood):
 
 		for i in range(k):
 
-			cosmo_mu[i] = 5*cosmo.luminosity_distance(z[i])+25
+			cosmo_mu[i] = 5*np.log10(cosmo.luminosity_distance(z[i]))+25
 
 		residuals = np.zeros(k)
-		residuals = self.hubble_mu
-		residuals -= cosmo_mu
+		residuals = self.hubble_mu - cosmo_mu
 
-		cov = np.diag(self.hubble_dmu**2)
+		#jac = ((1+z)/cosmo.Hubble(z))+(cosmo.luminosity_distance(z)/(1+z))
+
+		#cov = np.diag(np.sqrt(self.hubble_dmu**2+(jac*dz)**2))
+		cov = np.diag(np.sqrt(self.hubble_dmu**2+(dz)**2))
 
 		cov = la.cholesky(cov, lower=True, overwrite_a=True)
 
 		residuals = la.solve_triangular(cov,residuals, lower=True, check_finite=False)
 		
 		chi2 = (residuals**2).sum()
+		
 
-		lkl = -0.5*chi2
+		lkl = -np.log10(0.5*chi2)
+		print('This is the distanceladder lkl:',lkl)
 	
 		return lkl
 
