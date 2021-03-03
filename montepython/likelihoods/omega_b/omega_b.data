@@ -1,0 +1,4 @@
+#omega_b data from BBN
+
+omega_b.BBN = 0.02268
+omega_b.dBBN = 0.00038

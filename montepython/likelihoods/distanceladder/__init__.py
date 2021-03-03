@@ -7,6 +7,7 @@ import scipy.linalg as la
 import numpy as np
 from scipy.integrate import quad
 
+import time
 
 def lin_reg(x,y):
 
@@ -839,6 +840,8 @@ class distanceladder(Likelihood):
 		self.hubble_dmu = hubble_sn.dmu
 		self.hubble_z = hubble_sn.z
 		self.hubble_dz = hubble_sn.dz
+		self.hubble_dm = dm
+		self.hubble_dMsn = dMsn
 
 		print("Abs. Ceph. Mag:", Mceph)
 		print("Abs. Ceph. Mag Error:",dMceph)
@@ -850,26 +853,30 @@ class distanceladder(Likelihood):
 		print("Anchor dMsn:",dMsn)
 		
 	def loglkl(self, cosmo, data):
-
+		#t0 = time.time()
 		z = self.hubble_z
 		dz = self.hubble_dz
+		dMsn = self.hubble_dMsn
+		dm = self.hubble_dm		
 
 		k = len(self.hubble_dmu)
 
 		cosmo_mu = np.zeros(k)
-		cosmo_dmu = np.zeros(k)
+		jac = np.zeros(k)
 
 		for i in range(k):
 
 			cosmo_mu[i] = 5*np.log10(cosmo.luminosity_distance(z[i]))+25
+			jac[i] = ((1+z[i])/cosmo.Hubble(z[i]))+(cosmo.luminosity_distance(z[i])/(1+z[i]))
 
 		residuals = np.zeros(k)
 		residuals = self.hubble_mu - cosmo_mu
 
-		#jac = ((1+z)/cosmo.Hubble(z))+(cosmo.luminosity_distance(z)/(1+z))
+		cov = np.diag(np.sqrt(dm**2+(jac*dz)**2))
 
-		#cov = np.diag(np.sqrt(self.hubble_dmu**2+(jac*dz)**2))
-		cov = np.diag(np.sqrt(self.hubble_dmu**2+(dz)**2))
+		systematic = np.ones((k,k))*dMsn
+
+		cov = cov + systematic
 
 		cov = la.cholesky(cov, lower=True, overwrite_a=True)
 
@@ -878,9 +885,12 @@ class distanceladder(Likelihood):
 		chi2 = (residuals**2).sum()
 		
 
-		lkl = -np.log10(0.5*chi2)
+		lkl = -0.5*chi2
+		#t1 = time.time()
+		#total = t1 - t0
+
 		print('This is the distanceladder lkl:',lkl)
-	
+		#print('This is how long it took:',total)
 		return lkl
 
 		
